@@ -1,6 +1,7 @@
 import { Simulation } from '../models/Simulation.js';
 
-let sim = new Simulation(2,2);
+const sim = new Simulation(6, 15); // Default
+sim.start();
 
 export const resetSimulation = (req, res) => {
   const { elevators, floors } = req.body;
@@ -9,12 +10,6 @@ export const resetSimulation = (req, res) => {
   res.send('Simulation reset and started');
 };
 
-
-export const simulationSpeed = (req, res) => {
-  const { multiplier } = req.body;
-  sim.setSpeedMultiplier(multiplier);
-  res.json({ message: `Speed set to ${multiplier}x` });
-}
 export const addRequest = (req, res) => {
   const { origin, destination } = req.body;
   sim.addRequest(origin, destination);
@@ -23,7 +18,7 @@ export const addRequest = (req, res) => {
 
 export const addBatchRequests = (req, res) => {
   const { requests } = req.body;
-  requests.forEach(r => sim.addRequest(r.origin, r.destination,r.timestamp));
+  requests.forEach(r => sim.addRequest(r.origin, r.destination, r.timestamp));
   res.send('Batch requests added');
 };
 
@@ -45,3 +40,8 @@ export const resumeSimulation = (req, res) => {
   res.send('Simulation resumed');
 };
 
+export const simulationSpeed = (req, res) => {
+  const { multiplier } = req.body;
+  sim.setSpeedMultiplier(multiplier);
+  res.json({ message: `Speed set to ${multiplier}x` });
+};
