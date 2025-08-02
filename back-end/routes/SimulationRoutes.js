@@ -21,4 +21,4 @@ router.post('/pause', pauseSimulation);
 router.post('/resume', resumeSimulation);
 router.post('/speed', simulationSpeed);
 
-export default router;
+module.exports = router;
