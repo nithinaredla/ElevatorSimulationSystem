@@ -6,11 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.use('/api/simulation', simulationRoutes);
 
-module.exports = app; // ✅ export for Vercel
+// Export for Vercel
+export default (req, res) => {
+  app(req, res);
+};
 
-// ✅ Only listen locally
+// Run locally
 if (require.main === module) {
   const PORT = 4000;
   app.listen(PORT, () => {
