@@ -8,5 +8,12 @@ app.use(express.json());
 
 app.use('/api/simulation', simulationRoutes);
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports = app; // ✅ export for Vercel
+
+// ✅ Only listen locally
+if (require.main === module) {
+  const PORT = 4000;
+  app.listen(PORT, () => {
+    console.log(`✅ Server running at http://localhost:${PORT}`);
+  });
+}
