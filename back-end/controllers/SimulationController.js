@@ -1,6 +1,6 @@
 import { Simulation } from '../models/Simulation.js';
 
-const sim = new Simulation(2.2); // Default
+const sim = new Simulation(2,2); // Default
 sim.start();
 
 export const resetSimulation = (req, res) => {
