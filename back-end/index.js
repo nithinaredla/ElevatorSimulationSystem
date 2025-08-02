@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import simulationRoutes from './routes/simulationRoutes.js';
+import simulationRoutes from './routes/SimulationRoutes.js';
 
 const app = express();
 app.use(cors());

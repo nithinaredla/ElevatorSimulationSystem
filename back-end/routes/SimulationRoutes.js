@@ -8,7 +8,7 @@ import {
   pauseSimulation,
   resumeSimulation,
   simulationSpeed
-} from '../controllers/simulationController.js';
+} from '../controllers/SimulationController.js';
 
 const router = express.Router();
 
