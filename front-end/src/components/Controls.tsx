@@ -4,7 +4,8 @@ import {
   handleSpeedChange,
   pauseSimulation,
   resumeSimulation,
-  addRequest
+  addRequest,
+  addBulkRequests
 } from '../api/simulation';
 import { AxiosError } from 'axios';
 
@@ -83,6 +84,27 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
           : "Failed to add request";
       setError(message);
       console.error("Error adding request:", error);
+    }
+  };
+  const handleStressTest = async () => {
+    const generatedRequests = [];
+
+    for (let i = 0; i < 100; i++) {
+      const origin = Math.floor(Math.random() * floors);
+      let destination;
+      do {
+        destination = Math.floor(Math.random() * floors);
+      } while (destination === origin);
+
+      generatedRequests.push({ origin, destination });
+    }
+
+    try {
+      await addBulkRequests(generatedRequests);
+      setSuccess("Stress test: 100 requests added.");
+    } catch (err) {
+      setError("Failed to run stress test.");
+      console.error(err);
     }
   };
 
@@ -166,6 +188,17 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
         {success && <p className="text-green-600 text-sm">{success}</p>}
       </div>
 
+      <hr className="my-2" />
+      <h3 className="text-md font-semibold text-gray-700">Debug / Testing</h3>
+
+      <button
+        onClick={handleStressTest}
+        className="bg-red-600 hover:bg-red-700 text-white py-2 rounded mt-1"
+      >
+        Run Stress Test (100 Requests)
+      </button>
+
+
       {/* Speed Control */}
       <div className="mt-4">
         <p className="text-sm text-gray-700 font-semibold mb-1">Speed</p>
@@ -174,9 +207,8 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
             <button
               key={value}
               onClick={() => handleSpeedClick(value)}
-              className={`px-3 py-1 rounded border transition-all duration-200 ${
-                speed === value ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
-              }`}
+              className={`px-3 py-1 rounded border transition-all duration-200 ${speed === value ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
+                }`}
             >
               {value}x
             </button>
