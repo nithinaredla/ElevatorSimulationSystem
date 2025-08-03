@@ -60,8 +60,8 @@ const BASE_URL = 'https://elevatorsimulationsystem-elevatorsimulationsystem.up.r
 | ------------------------ | --------------- |
 | Total Requests Completed | 100             |
 | Avg Wait Time            | 19.62s           |
-| Avg Travel Time          | 24.49s           |
-| Avg Fulfillment Time     | 3.11s           |
+| Avg Travel Time          | 21.49s           |
+| Avg Fulfillment Time     | 23.11s           |
 
 ---
 
