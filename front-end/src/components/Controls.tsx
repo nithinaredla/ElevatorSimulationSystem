@@ -203,7 +203,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
       </div>
 
       <hr className="my-2" />
-      <h3 className="text-md font-semibold text-gray-700">Debug / Testing</h3>
+      <h3 className="text-md font-semibold text-gray-700">Testing with Batch</h3>
 
       <button
         onClick={handleStressTest}
