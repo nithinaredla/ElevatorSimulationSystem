@@ -1,7 +1,7 @@
 import { Simulation } from '../models/Simulation.js';
 
 const sim = new Simulation(0,0); // Default
-sim.start();
+
 
 export const resetSimulation = (req, res) => {
   const { elevators, floors } = req.body;
