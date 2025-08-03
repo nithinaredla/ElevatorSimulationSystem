@@ -140,26 +140,26 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
 
 
       {/* Control Buttons */}
-      {!isRunning ? (
-        <button onClick={handleStart} className="bg-green-600 hover:bg-green-700 text-white py-2 rounded">
-          Start
-        </button>
-      ) : isPaused ? (
-        <button onClick={handleResume} className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
-          Resume
-        </button>
-      ) : (
-        <button onClick={handlePause} className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded">
-          Stop
-        </button>
-      )}
+      <div className="flex gap-2">
+        {!isRunning ? (
+          <button onClick={handleStart} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+            Start
+          </button>
+        ) : isPaused ? (
+          <button onClick={handleResume} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+            Resume
+          </button>
+        ) : (
+          <button onClick={handlePause} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded">
+            Stop
+          </button>
+        )}
 
-      <button onClick={handleReset} className="bg-gray-800 hover:bg-gray-900 text-white py-2 rounded">
-        Reset
-      </button>
+        <button onClick={handleReset} className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-2 rounded">
+          Reset
+        </button>
+      </div>
 
-      <hr className="my-2" />
-      <h3 className="text-md font-semibold text-gray-700">Add Manual Request</h3>
 
       {/* Manual Request Form */}
 
