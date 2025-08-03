@@ -109,7 +109,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
   };
 
   return (
-    <div className="w-64 bg-white shadow-md p-2 border-r flex flex-col gap-3 z-50 text-sm">
+    <div className="w-72 bg-white shadow-md p-2 border-r flex flex-col gap-3 z-50 text-sm">
       <h2 className="text-base font-semibold text-gray-800">Controls</h2>
 
       {/* Elevator/Floor Settings (horizontal) */}
@@ -120,7 +120,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
             type="number"
             value={elevators}
             onChange={(e) => setElevators(+e.target.value)}
-            className="border px-2 py-1 rounded text-sm"
+            className="w-full border px-2 py-1 rounded text-sm"
             min={1}
           />
         </div>
@@ -130,11 +130,12 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
             type="number"
             value={floors}
             onChange={(e) => setFloors(+e.target.value)}
-            className="border px-2 py-1 rounded text-sm"
+            className="w-full border px-2 py-1 rounded text-sm"
             min={1}
           />
         </div>
       </div>
+
 
       {/* Start/Reset buttons side by side */}
       <div className="flex gap-2">
@@ -204,8 +205,8 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
             key={value}
             onClick={() => handleSpeedClick(value)}
             className={`px-2 py-1 rounded border transition-all duration-200 text-xs ${speed === value
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
               }`}
           >
             {value}x
