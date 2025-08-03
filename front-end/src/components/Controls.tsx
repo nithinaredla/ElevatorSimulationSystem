@@ -33,12 +33,12 @@ const Controls: React.FC<Props> = ({  onReset, onFloorChange, speed, setSpeed  }
   };
 
   const handlePause = async () => {
-    await axios.post('http://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/pause');
+    await axios.post('https://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/pause');
     setIsPaused(true);
   };
 
   const handleResume = async () => {
-    await axios.post('http://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/resume');
+    await axios.post('https://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/resume');
     setIsPaused(false);
   };
 
