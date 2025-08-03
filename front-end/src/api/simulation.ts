@@ -12,6 +12,14 @@ export const getSimulationState = () => {
   return axios.get(`${BASE_URL}/state`);
 };
 
+export const resumeSimulation = () => {
+  return axios.post(`${BASE_URL}/resume`);
+};
+
+export const pauseSimulation = () => {
+  return axios.post(`${BASE_URL}/pause`);
+};
+
 export const addRequest = (origin: number, destination: number) => {
   return axios.post(`${BASE_URL}/request`, { origin, destination });
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { resetSimulation, handleSpeedChange } from '../api/simulation';
-import axios from 'axios';
+import { resetSimulation, handleSpeedChange, pauseSimulation, resumeSimulation } from '../api/simulation';
 
 interface Props {
   onReset: () => void;
@@ -33,12 +32,12 @@ const Controls: React.FC<Props> = ({  onReset, onFloorChange, speed, setSpeed  }
   };
 
   const handlePause = async () => {
-    await axios.post('https://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/pause');
+    await pauseSimulation();
     setIsPaused(true);
   };
 
   const handleResume = async () => {
-    await axios.post('https://elevatorsimulationsystem-elevatorsimulationsystem.up.railway.app/api/simulation/resume');
+    await resumeSimulation();
     setIsPaused(false);
   };
 
