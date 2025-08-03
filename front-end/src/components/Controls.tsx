@@ -113,23 +113,30 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
       <h2 className="text-xl font-semibold text-gray-800">Controls</h2>
 
       {/* Elevator/Floor Settings */}
-      <label className="text-sm text-gray-600">Elevators</label>
-      <input
-        type="number"
-        value={elevators}
-        onChange={(e) => setElevators(+e.target.value)}
-        className="border px-2 py-1 rounded"
-        min={1}
-      />
+      <div className="flex gap-2">
+        <div className="flex flex-col flex-1">
+          <label className="text-sm text-gray-600">Elevators</label>
+          <input
+            type="number"
+            value={elevators}
+            onChange={(e) => setElevators(+e.target.value)}
+            className="border px-2 py-1 rounded"
+            min={1}
+          />
+        </div>
 
-      <label className="text-sm text-gray-600">Floors</label>
-      <input
-        type="number"
-        value={floors}
-        onChange={(e) => setFloors(+e.target.value)}
-        className="border px-2 py-1 rounded"
-        min={1}
-      />
+        <div className="flex flex-col flex-1">
+          <label className="text-sm text-gray-600">Floors</label>
+          <input
+            type="number"
+            value={floors}
+            onChange={(e) => setFloors(+e.target.value)}
+            className="border px-2 py-1 rounded"
+            min={1}
+          />
+        </div>
+      </div>
+
 
       {/* Control Buttons */}
       {!isRunning ? (
@@ -154,28 +161,34 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
       <h3 className="text-md font-semibold text-gray-700">Add Manual Request</h3>
 
       {/* Manual Request Form */}
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">Origin</label>
-        <input
-          type="number"
-          value={origin}
-          onChange={(e) => setOrigin(Number(e.target.value))}
-          className="border px-2 py-1 rounded"
-          min={0}
-          max={floors - 1}
-          placeholder={`0 to ${floors - 1}`}
-        />
 
-        <label className="text-sm text-gray-600">Destination</label>
-        <input
-          type="number"
-          value={destination}
-          onChange={(e) => setDestination(Number(e.target.value))}
-          className="border px-2 py-1 rounded"
-          min={0}
-          max={floors - 1}
-          placeholder={`0 to ${floors - 1}`}
-        />
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
+          <div className="flex flex-col flex-1">
+            <label className="text-sm text-gray-600">Origin</label>
+            <input
+              type="number"
+              value={origin}
+              onChange={(e) => setOrigin(Number(e.target.value))}
+              className="border px-2 py-1 rounded"
+              min={0}
+              max={floors - 1}
+            />
+          </div>
+
+          <div className="flex flex-col flex-1">
+            <label className="text-sm text-gray-600">Destination</label>
+            <input
+              type="number"
+              value={destination}
+              onChange={(e) => setDestination(Number(e.target.value))}
+              className="border px-2 py-1 rounded"
+              min={0}
+              max={floors - 1}
+            />
+          </div>
+        </div>
+
 
         <button
           onClick={handleAddRequest}

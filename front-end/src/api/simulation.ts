@@ -32,6 +32,7 @@ export const addBulkRequests = (requests: { origin: number; destination: number 
   return axios.post(`${BASE_URL}/requests`, { requests });
 };
 
+
 // Get performance metrics of the simulation
 export const getMetrics = () => {
   return axios.get(`${BASE_URL}/metrics`);
