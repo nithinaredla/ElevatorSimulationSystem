@@ -167,11 +167,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
           Reset
         </button>
       </div>
-      {!isRunning && (
-        <p className="text-xs text-gray-600 text-center italic">
-          Click start to add requests, set speed, or run tests.
-        </p>
-      )}
+
       {/* ➕ Message below Start */}
       {!isRunning && (
         <p className="text-xs text-gray-600 text-center italic">
