@@ -109,129 +109,123 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
   };
 
   return (
-    <div className="sticky top-0 w-64 max-h-screen overflow-y-auto overflow-x-hidden bg-white shadow-md p-4 border-r flex flex-col gap-6 z-50">
-      <h2 className="text-xl font-semibold text-gray-800">Controls</h2>
+    <div className="w-64 bg-white shadow-md p-2 border-r flex flex-col gap-3 z-50 text-sm">
+      <h2 className="text-base font-semibold text-gray-800">Controls</h2>
 
-      {/* Elevator/Floor Settings */}
-      <div className="flex gap-2 w-full">
-        <div className="flex flex-col flex-1 min-w-0">
-          <label className="text-sm text-gray-600">Elevators</label>
+      {/* Elevator/Floor Settings (horizontal) */}
+      <div className="flex gap-2">
+        <div className="flex flex-col flex-1">
+          <label className="text-xs text-gray-600">Elevators</label>
           <input
             type="number"
             value={elevators}
             onChange={(e) => setElevators(+e.target.value)}
-            className="border px-2 py-1 rounded w-full"
+            className="border px-2 py-1 rounded text-sm"
             min={1}
           />
         </div>
-
-        <div className="flex flex-col flex-1 min-w-0">
-          <label className="text-sm text-gray-600">Floors</label>
+        <div className="flex flex-col flex-1">
+          <label className="text-xs text-gray-600">Floors</label>
           <input
             type="number"
             value={floors}
             onChange={(e) => setFloors(+e.target.value)}
-            className="border px-2 py-1 rounded w-full"
+            className="border px-2 py-1 rounded text-sm"
             min={1}
           />
         </div>
       </div>
 
-
-
-      {/* Control Buttons */}
+      {/* Start/Reset buttons side by side */}
       <div className="flex gap-2">
         {!isRunning ? (
-          <button onClick={handleStart} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+          <button onClick={handleStart} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded">
             Start
           </button>
         ) : isPaused ? (
-          <button onClick={handleResume} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+          <button onClick={handleResume} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1 rounded">
             Resume
           </button>
         ) : (
-          <button onClick={handlePause} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded">
+          <button onClick={handlePause} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-1 rounded">
             Stop
           </button>
         )}
-
-        <button onClick={handleReset} className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-2 rounded">
+        <button onClick={handleReset} className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-1 rounded">
           Reset
         </button>
       </div>
 
+      {/* Manual Request Inputs (compact horizontal) */}
+      <hr className="my-1" />
+      <h3 className="text-sm font-semibold text-gray-700">Manual Request</h3>
 
-      {/* Manual Request Form */}
-
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2">
-          <div className="flex flex-col flex-1">
-            <label className="text-sm text-gray-600">Origin</label>
-            <input
-              type="number"
-              value={origin}
-              onChange={(e) => setOrigin(Number(e.target.value))}
-              className="border px-2 py-1 rounded"
-              min={0}
-              max={floors - 1}
-            />
-          </div>
-
-          <div className="flex flex-col flex-1">
-            <label className="text-sm text-gray-600">Destination</label>
-            <input
-              type="number"
-              value={destination}
-              onChange={(e) => setDestination(Number(e.target.value))}
-              className="border px-2 py-1 rounded"
-              min={0}
-              max={floors - 1}
-            />
-          </div>
+      <div className="flex gap-2">
+        <div className="flex flex-col flex-1">
+          <label className="text-xs text-gray-600">Origin</label>
+          <input
+            type="number"
+            value={origin}
+            onChange={(e) => setOrigin(Number(e.target.value))}
+            className="border px-2 py-1 rounded text-sm"
+            min={0}
+            max={floors - 1}
+          />
         </div>
-
-
-        <button
-          onClick={handleAddRequest}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded mt-1"
-        >
-          Add Request
-        </button>
-
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {success && <p className="text-green-600 text-sm">{success}</p>}
+        <div className="flex flex-col flex-1">
+          <label className="text-xs text-gray-600">Destination</label>
+          <input
+            type="number"
+            value={destination}
+            onChange={(e) => setDestination(Number(e.target.value))}
+            className="border px-2 py-1 rounded text-sm"
+            min={0}
+            max={floors - 1}
+          />
+        </div>
       </div>
-
-      <hr className="my-2" />
-      <h3 className="text-md font-semibold text-gray-700">Testing with Batch</h3>
 
       <button
-        onClick={handleStressTest}
-        className="bg-red-600 hover:bg-red-700 text-white py-2 rounded mt-1"
+        onClick={handleAddRequest}
+        className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 rounded mt-1 text-sm"
       >
-        Run Stress Test (100 Requests)
+        Add Request
       </button>
 
+      {error && <p className="text-red-600 text-xs">{error}</p>}
+      {success && <p className="text-green-600 text-xs">{success}</p>}
 
-      {/* Speed Control */}
-      <div className="mt-4">
-        <p className="text-sm text-gray-700 font-semibold mb-1">Speed</p>
-        <div className="flex gap-2">
-          {[1, 2, 5].map((value) => (
-            <button
-              key={value}
-              onClick={() => handleSpeedClick(value)}
-              className={`px-3 py-1 rounded border transition-all duration-200 ${speed === value ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
-                }`}
-            >
-              {value}x
-            </button>
-          ))}
-        </div>
-        <p className="text-xs text-gray-500 mt-1">Selected: {speed}x</p>
+      {/* Speed Controls */}
+      <hr className="my-1" />
+      <p className="text-xs text-gray-700 font-semibold mb-1">Speed</p>
+      <div className="flex gap-1">
+        {[1, 2, 5].map((value) => (
+          <button
+            key={value}
+            onClick={() => handleSpeedClick(value)}
+            className={`px-2 py-1 rounded border transition-all duration-200 text-xs ${speed === value
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
+              }`}
+          >
+            {value}x
+          </button>
+        ))}
       </div>
+      <p className="text-[10px] text-gray-500 mt-1">Selected: {speed}x</p>
+
+      {/* Stress Test */}
+      <hr className="my-1" />
+      <h3 className="text-sm font-semibold text-gray-700">Testing</h3>
+      <button
+        onClick={handleStressTest}
+        className="bg-red-600 hover:bg-red-700 text-white py-1 rounded text-sm"
+      >
+        Run Stress Test (100)
+      </button>
     </div>
   );
+
 };
 
 export default Controls;
