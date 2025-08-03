@@ -11,9 +11,11 @@ app.use(express.json());
 app.use('/api/simulation', simulationRoutes);
 
 // ✅ Required for Vercel (serverless handler)
-export default (req, res) => {
-  app(req, res);
-};
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
+});
+
 
 // ✅ Optional: Run locally only
 const __filename = fileURLToPath(import.meta.url);
