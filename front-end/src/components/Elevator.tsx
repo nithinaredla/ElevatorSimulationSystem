@@ -4,43 +4,30 @@ import type { Elevator } from '../types';
 interface Props {
   elevator: Elevator;
   numFloors: number;
-  speed?: number;
+  speed?: number; // Optional: to dynamically adjust animation timing
 }
 
 const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) => {
   const [animatedFloor, setAnimatedFloor] = useState(elevator.floor);
-  const [displayState, setDisplayState] = useState('');
   const floorHeight = 40;
 
   const directionIcon =
     elevator.direction === 'up' ? '↑' :
     elevator.direction === 'down' ? '↓' : '⏹️';
 
-  // Handle animation
   useEffect(() => {
     if (!elevator.doorOpen && elevator.floor !== animatedFloor) {
+      // Delay updating animatedFloor to sync with backend movement
       const timeout = setTimeout(() => {
         setAnimatedFloor(elevator.floor);
-      }, 2000 / speed);
+      }, 2000 / speed); // Match backend timing adjusted by speed
       return () => clearTimeout(timeout);
     }
 
     if (elevator.doorOpen && elevator.floor !== animatedFloor) {
-      setAnimatedFloor(elevator.floor);
+      setAnimatedFloor(elevator.floor); // Snap if open
     }
   }, [elevator.floor, elevator.doorOpen, animatedFloor, speed]);
-
-  // Show state only when elevator has arrived
-  useEffect(() => {
-    if (animatedFloor === elevator.floor) {
-      if (elevator.state === 'boarding') setDisplayState('⏳ Boarding');
-      else if (elevator.state === 'opening') setDisplayState('🚪 Opening');
-      else if (elevator.state === 'closing') setDisplayState('🚪 Closing');
-      else setDisplayState('');
-    } else {
-      setDisplayState('');
-    }
-  }, [elevator.state, elevator.floor, animatedFloor]);
 
   return (
     <div className="flex flex-col items-center">
@@ -52,36 +39,40 @@ const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) 
         className="relative w-20 border border-gray-300 bg-white rounded shadow overflow-hidden"
         style={{ height: numFloors * floorHeight }}
       >
-        {/* Animated elevator */}
+        {/* Animated elevator box */}
         <div
           className="absolute left-0 w-full"
           style={{
             transform: `translateY(${(numFloors - 1 - animatedFloor) * floorHeight}px)`,
-            transition: `transform ${2000 / speed}ms ease-in-out`,
+            transition: `transform ${2000 / speed}ms ease-in-out`
           }}
         >
           <div className="relative h-10 bg-gray-800 text-white font-semibold flex items-center justify-center">
             {/* Doors */}
             <div
-              className={`absolute left-0 top-0 h-full bg-blue-500 transition-all duration-500 ${
-                elevator.doorOpen ? 'w-0' : 'w-1/2'
-              }`}
+              className={`absolute left-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`}
             />
             <div
-              className={`absolute right-0 top-0 h-full bg-blue-500 transition-all duration-500 ${
-                elevator.doorOpen ? 'w-0' : 'w-1/2'
-              }`}
+              className={`absolute right-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`}
             />
 
-            {/* Elevator info */}
+            {/* State/Direction */}
             <div className="z-10 text-center leading-tight text-xs">
               <div>{directionIcon}</div>
-              <div className="text-yellow-300 text-[10px]">{displayState}</div>
+              <div className="text-yellow-300 text-[10px]">
+                {animatedFloor === elevator.floor && (
+                  <>
+                    {elevator.state === 'boarding' && '⏳ Boarding'}
+                    {elevator.state === 'opening' && '🚪 Opening'}
+                    {elevator.state === 'closing' && '🚪 Closing'}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Floor labels */}
+        {/* Static floor labels */}
         {Array.from({ length: numFloors }, (_, i) => (
           <div
             key={i}
