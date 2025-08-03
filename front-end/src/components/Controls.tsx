@@ -110,7 +110,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
 
   return (
     <div className="w-64 bg-white shadow-md p-2 border-r flex flex-col gap-3 z-50 text-sm">
-      <h2 className="text-base font-semibold text-gray-800">Controls</h2>
+      <h2 className="text-base font-semibold text-gray-700">Controls</h2>
 
       {/* Elevator/Floor Settings (horizontal) */}
       <div className="flex gap-2">
