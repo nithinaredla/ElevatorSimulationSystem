@@ -33,12 +33,12 @@ const Controls: React.FC<Props> = ({  onReset, onFloorChange, speed, setSpeed  }
   };
 
   const handlePause = async () => {
-    await axios.post('https://elevator-simulation-system.vercel.app/api/simulation/pause');
+    await axios.post('http://localhost:5000/api/simulation/pause');
     setIsPaused(true);
   };
 
   const handleResume = async () => {
-    await axios.post('https://elevator-simulation-system.vercel.app/api/simulation/resume');
+    await axios.post('http://localhost:5000/api/simulation/resume');
     setIsPaused(false);
   };
 

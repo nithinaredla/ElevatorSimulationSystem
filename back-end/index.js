@@ -16,7 +16,7 @@ export default (req, res) => {
 
 // Run locally
 if (require.main === module) {
-  const PORT = 4000;
+  const PORT = 5000;
   app.listen(PORT, () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);
   });

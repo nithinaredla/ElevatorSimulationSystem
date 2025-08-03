@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://elevator-simulation-system.vercel.app/api/simulation';
+const BASE_URL = 'http://localhost:5000/api/simulation';
 
 export const resetSimulation = (elevators: number, floors: number) => {
   return axios.post(`${BASE_URL}/reset`, { elevators, floors });
