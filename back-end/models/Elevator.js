@@ -1,8 +1,8 @@
 export class Elevator {
   constructor(id, numFloors) {
     this.id = id;
-    this.floor = 0;
     this.numFloors = numFloors;
+    this.floor = 0;
     this.state = 'idle'; // idle, moving, opening, boarding, closing
     this.queue = [];
     this.direction = 'idle'; // up, down, idle
@@ -13,7 +13,7 @@ export class Elevator {
   addRequest(floor) {
     if (!this.queue.includes(floor)) {
       this.queue.push(floor);
-      this.sortQueue(); // sort intelligently
+      this.sortQueue();
     }
   }
 
@@ -21,16 +21,16 @@ export class Elevator {
     const above = this.queue.filter(f => f > this.floor).sort((a, b) => a - b);
     const below = this.queue.filter(f => f < this.floor).sort((a, b) => b - a);
 
-    if (this.direction === 'up') {
-      this.queue = [...above, ...below];
-    } else if (this.direction === 'down') {
-      this.queue = [...below, ...above];
-    } else {
-      // Idle: pick closest and decide direction
-      const closest = this.queue
-        .slice()
-        .sort((a, b) => Math.abs(a - this.floor) - Math.abs(b - this.floor));
-      this.queue = closest;
+    switch (this.direction) {
+      case 'up':
+        this.queue = [...above, ...below];
+        break;
+      case 'down':
+        this.queue = [...below, ...above];
+        break;
+      default:
+        // Idle — prioritize closest request
+        this.queue.sort((a, b) => Math.abs(a - this.floor) - Math.abs(b - this.floor));
     }
   }
 
@@ -39,83 +39,62 @@ export class Elevator {
       this.direction = 'idle';
       return;
     }
-
-    const nextFloor = this.queue[0];
-    if (nextFloor > this.floor) this.direction = 'up';
-    else if (nextFloor < this.floor) this.direction = 'down';
-    else this.direction = 'idle';
+    const next = this.queue[0];
+    this.direction = next > this.floor ? 'up' : next < this.floor ? 'down' : 'idle';
   }
 
   step() {
+    if (this.stepTimer > 0) {
+      this.stepTimer--;
+      return;
+    }
+
     switch (this.state) {
       case 'idle':
         if (this.queue.length > 0) {
           const next = this.queue[0];
           if (next === this.floor) {
             this.state = 'opening';
-            this.stepTimer = 1;
-            this.doorOpen = false;
           } else {
             this.updateDirection();
-            this.sortQueue(); // sort on direction change
+            this.sortQueue();
             this.state = 'moving';
-            this.stepTimer = 1;
           }
-        }
-        break;
-
-      case 'moving':
-        if (this.stepTimer > 0) {
-          this.stepTimer--;
-        } else {
-          this.floor += this.direction === 'up' ? 1 : -1;
-
-          if (this.queue.includes(this.floor)) {
-            this.state = 'opening';
-            this.stepTimer = 1;
-            this.doorOpen = false;
-          } else {
-            this.stepTimer = 1; // continue moving
-          }
-        }
-        break;
-
-      case 'opening':
-        if (this.stepTimer > 0) {
-          this.stepTimer--;
-        } else {
-          this.state = 'boarding';
-          this.doorOpen = true;
-          this.stepTimer = 2;
-        }
-        break;
-
-      case 'boarding':
-        if (this.stepTimer > 0) {
-          this.stepTimer--;
-        } else {
-          this.state = 'closing';
           this.stepTimer = 1;
         }
         break;
 
-      case 'closing':
-        if (this.stepTimer > 0) {
-          this.stepTimer--;
-        } else {
-          this.doorOpen = false;
-          this.queue = this.queue.filter(f => f !== this.floor);
-
-          if (this.queue.length > 0) {
-            this.updateDirection();
-            this.sortQueue(); // re-sort after removing current
-            this.state = 'moving';
-            this.stepTimer = 1;
-          } else {
-            this.state = 'idle';
-            this.direction = 'idle';
-          }
+      case 'moving':
+        this.floor += this.direction === 'up' ? 1 : -1;
+        if (this.queue.includes(this.floor)) {
+          this.state = 'opening';
         }
+        this.stepTimer = 1;
+        break;
+
+      case 'opening':
+        this.doorOpen = true;
+        this.state = 'boarding';
+        this.stepTimer = 2;
+        break;
+
+      case 'boarding':
+        this.state = 'closing';
+        this.stepTimer = 1;
+        break;
+
+      case 'closing':
+        this.doorOpen = false;
+        this.queue = this.queue.filter(f => f !== this.floor);
+        if (this.queue.length) {
+          this.updateDirection();
+          this.sortQueue();
+          this.state = 'moving';
+        } else {
+          this.state = 'idle';
+          this.direction = 'idle';
+        }
+        this.stepTimer = 1;
         break;
     }
   }
