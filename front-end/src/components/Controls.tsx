@@ -87,7 +87,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
   };
 
   return (
-    <div className="sticky top-0 h-screen w-64 bg-white shadow-md p-4 flex flex-col gap-4 border-r border-gray-200 z-50">
+    <div className="sticky top-0 w-64 max-h-screen overflow-y-auto bg-white shadow-md p-4 border-r flex flex-col gap-6 z-50">
       <h2 className="text-xl font-semibold text-gray-800">Controls</h2>
 
       {/* Elevator/Floor Settings */}
