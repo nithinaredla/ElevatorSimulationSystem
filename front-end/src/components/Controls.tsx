@@ -109,33 +109,34 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
   };
 
   return (
-    <div className="sticky top-0 w-64 max-h-screen overflow-y-auto bg-white shadow-md p-4 border-r flex flex-col gap-6 z-50">
+    <div className="sticky top-0 w-64 max-h-screen overflow-y-auto overflow-x-hidden bg-white shadow-md p-4 border-r flex flex-col gap-6 z-50">
       <h2 className="text-xl font-semibold text-gray-800">Controls</h2>
 
       {/* Elevator/Floor Settings */}
-      <div className="flex gap-2">
-        <div className="flex flex-col flex-1">
+      <div className="flex gap-2 w-full">
+        <div className="flex flex-col flex-1 min-w-0">
           <label className="text-sm text-gray-600">Elevators</label>
           <input
             type="number"
             value={elevators}
             onChange={(e) => setElevators(+e.target.value)}
-            className="border px-2 py-1 rounded"
+            className="border px-2 py-1 rounded w-full"
             min={1}
           />
         </div>
 
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 min-w-0">
           <label className="text-sm text-gray-600">Floors</label>
           <input
             type="number"
             value={floors}
             onChange={(e) => setFloors(+e.target.value)}
-            className="border px-2 py-1 rounded"
+            className="border px-2 py-1 rounded w-full"
             min={1}
           />
         </div>
       </div>
+
 
 
       {/* Control Buttons */}
