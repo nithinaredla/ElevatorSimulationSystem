@@ -136,96 +136,113 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
         </div>
       </div>
 
-
       {/* Start/Reset buttons side by side */}
       <div className="flex gap-2">
         {!isRunning ? (
-          <button onClick={handleStart} className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded">
+          <button
+            onClick={handleStart}
+            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1 rounded"
+          >
             Start
           </button>
         ) : isPaused ? (
-          <button onClick={handleResume} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1 rounded">
+          <button
+            onClick={handleResume}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1 rounded"
+          >
             Resume
           </button>
         ) : (
-          <button onClick={handlePause} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-1 rounded">
+          <button
+            onClick={handlePause}
+            className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-1 rounded"
+          >
             Stop
           </button>
         )}
-        <button onClick={handleReset} className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-1 rounded">
+        <button
+          onClick={handleReset}
+          className="flex-1 bg-gray-800 hover:bg-gray-900 text-white py-1 rounded"
+        >
           Reset
         </button>
       </div>
 
-      {/* Manual Request Inputs (compact horizontal) */}
-      <hr className="my-1" />
-      <h3 className="text-sm font-semibold text-gray-700">Manual Request</h3>
+      {/* Hide this entire section unless simulation is running */}
+      {isRunning && (
+        <>
+          {/* Manual Request Inputs */}
+          <hr className="my-1" />
+          <h3 className="text-sm font-semibold text-gray-700">Manual Request</h3>
 
-      <div className="flex gap-2">
-        <div className="flex flex-col flex-1">
-          <label className="text-xs text-gray-600">Origin</label>
-          <input
-            type="number"
-            value={origin}
-            onChange={(e) => setOrigin(Number(e.target.value))}
-            className="border px-2 py-1 rounded text-sm"
-            min={0}
-            max={floors - 1}
-          />
-        </div>
-        <div className="flex flex-col flex-1">
-          <label className="text-xs text-gray-600">Destination</label>
-          <input
-            type="number"
-            value={destination}
-            onChange={(e) => setDestination(Number(e.target.value))}
-            className="border px-2 py-1 rounded text-sm"
-            min={0}
-            max={floors - 1}
-          />
-        </div>
-      </div>
+          <div className="flex gap-2">
+            <div className="flex flex-col flex-1">
+              <label className="text-xs text-gray-600">Origin</label>
+              <input
+                type="number"
+                value={origin}
+                onChange={(e) => setOrigin(Number(e.target.value))}
+                className="border px-2 py-1 rounded text-sm"
+                min={0}
+                max={floors - 1}
+              />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label className="text-xs text-gray-600">Destination</label>
+              <input
+                type="number"
+                value={destination}
+                onChange={(e) => setDestination(Number(e.target.value))}
+                className="border px-2 py-1 rounded text-sm"
+                min={0}
+                max={floors - 1}
+              />
+            </div>
+          </div>
 
-      <button
-        onClick={handleAddRequest}
-        className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 rounded mt-1 text-sm"
-      >
-        Add Request
-      </button>
-
-      {error && <p className="text-red-600 text-xs">{error}</p>}
-      {success && <p className="text-green-600 text-xs">{success}</p>}
-
-      {/* Speed Controls */}
-      <hr className="my-1" />
-      <p className="text-xs text-gray-700 font-semibold mb-1">Speed</p>
-      <div className="flex gap-1">
-        {[1, 2, 5].map((value) => (
           <button
-            key={value}
-            onClick={() => handleSpeedClick(value)}
-            className={`px-2 py-1 rounded border transition-all duration-200 text-xs ${speed === value
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
-              }`}
+            onClick={handleAddRequest}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 rounded mt-1 text-sm"
           >
-            {value}x
+            Add Request
           </button>
-        ))}
-      </div>
-      <p className="text-[10px] text-gray-500 mt-1">Selected: {speed}x</p>
 
-      {/* Stress Test */}
-      <hr className="my-1" />
-      <h3 className="text-sm font-semibold text-gray-700">Testing</h3>
-      <button
-        onClick={handleStressTest}
-        className="bg-red-600 hover:bg-red-700 text-white py-1 rounded text-sm"
-      >
-        Run Stress Test (100)
-      </button>
+          {error && <p className="text-red-600 text-xs">{error}</p>}
+          {success && <p className="text-green-600 text-xs">{success}</p>}
+
+          {/* Speed Controls */}
+          <hr className="my-1" />
+          <p className="text-xs text-gray-700 font-semibold mb-1">Speed</p>
+          <div className="flex gap-1">
+            {[1, 2, 5].map((value) => (
+              <button
+                key={value}
+                onClick={() => handleSpeedClick(value)}
+                className={`px-2 py-1 rounded border transition-all duration-200 text-xs ${speed === value
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
+                  }`}
+              >
+                {value}x
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-gray-500 mt-1">Selected: {speed}x</p>
+
+          {/* Stress Test */}
+          <hr className="my-1" />
+          <h3 className="text-sm font-semibold text-gray-700">Testing</h3>
+          <button
+            onClick={handleStressTest}
+            className="bg-red-600 hover:bg-red-700 text-white py-1 rounded text-sm"
+          >
+            Run Stress Test (100)
+          </button>
+        </>
+      )}
     </div>
   );
+
 
 };
 
