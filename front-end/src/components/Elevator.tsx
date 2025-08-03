@@ -4,7 +4,7 @@ import type { Elevator } from '../types';
 interface Props {
   elevator: Elevator;
   numFloors: number;
-  speed?: number; // Optional: to dynamically adjust animation timing
+  speed?: number;
 }
 
 const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) => {
@@ -17,15 +17,14 @@ const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) 
 
   useEffect(() => {
     if (!elevator.doorOpen && elevator.floor !== animatedFloor) {
-      // Delay updating animatedFloor to sync with backend movement
       const timeout = setTimeout(() => {
         setAnimatedFloor(elevator.floor);
-      }, 2000 / speed); // Match backend timing adjusted by speed
+      }, 2000 / speed);
       return () => clearTimeout(timeout);
     }
 
     if (elevator.doorOpen && elevator.floor !== animatedFloor) {
-      setAnimatedFloor(elevator.floor); // Snap if open
+      setAnimatedFloor(elevator.floor);
     }
   }, [elevator.floor, elevator.doorOpen, animatedFloor, speed]);
 
@@ -39,7 +38,7 @@ const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) 
         className="relative w-20 border border-gray-300 bg-white rounded shadow overflow-hidden"
         style={{ height: numFloors * floorHeight }}
       >
-        {/* Animated elevator box */}
+        {/* Elevator Box */}
         <div
           className="absolute left-0 w-full"
           style={{
@@ -49,14 +48,10 @@ const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) 
         >
           <div className="relative h-10 bg-gray-800 text-white font-semibold flex items-center justify-center">
             {/* Doors */}
-            <div
-              className={`absolute left-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`}
-            />
-            <div
-              className={`absolute right-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`}
-            />
+            <div className={`absolute left-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`} />
+            <div className={`absolute right-0 top-0 h-full bg-blue-500 transition-all duration-500 ${elevator.doorOpen ? 'w-0' : 'w-1/2'}`} />
 
-            {/* State/Direction */}
+            {/* Status */}
             <div className="z-10 text-center leading-tight text-xs">
               <div>{directionIcon}</div>
               <div className="text-yellow-300 text-[10px]">
@@ -72,7 +67,7 @@ const ElevatorComponent: React.FC<Props> = ({ elevator, numFloors, speed = 1 }) 
           </div>
         </div>
 
-        {/* Static floor labels */}
+        {/* Floor Labels */}
         {Array.from({ length: numFloors }, (_, i) => (
           <div
             key={i}

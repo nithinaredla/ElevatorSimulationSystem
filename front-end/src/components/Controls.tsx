@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { resetSimulation, handleSpeedChange, pauseSimulation, resumeSimulation, addRequest } from '../api/simulation';
+import {
+  resetSimulation,
+  handleSpeedChange,
+  pauseSimulation,
+  resumeSimulation,
+  addRequest
+} from '../api/simulation';
 import { AxiosError } from 'axios';
-
 
 interface Props {
   onReset: () => void;
@@ -9,7 +14,6 @@ interface Props {
   speed: number;
   setSpeed: (s: number) => void;
 }
-
 
 const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) => {
   const [elevators, setElevators] = useState(2);
@@ -20,7 +24,6 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
   const [destination, setDestination] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
 
   const handleReset = async () => {
     await resetSimulation(elevators, floors);
@@ -57,10 +60,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
     setError(null);
     setSuccess(null);
 
-    if (
-      origin < 0 || destination < 0 ||
-      origin >= floors || destination >= floors
-    ) {
+    if (origin < 0 || destination < 0 || origin >= floors || destination >= floors) {
       setError(`Origin and Destination must be between 0 and ${floors - 1}`);
       return;
     }
@@ -77,12 +77,10 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
       setDestination(0);
     } catch (err) {
       const error = err as AxiosError;
-
       const message =
         error.response && error.response.data
           ? (error.response.data as { message?: string }).message || "Failed to add request"
           : "Failed to add request";
-
       setError(message);
       console.error("Error adding request:", error);
     }
@@ -92,13 +90,13 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
     <div className="sticky top-0 h-screen w-64 bg-white shadow-md p-4 flex flex-col gap-4 border-r border-gray-200 z-50">
       <h2 className="text-xl font-semibold text-gray-800">Controls</h2>
 
+      {/* Elevator/Floor Settings */}
       <label className="text-sm text-gray-600">Elevators</label>
       <input
         type="number"
         value={elevators}
         onChange={(e) => setElevators(+e.target.value)}
         className="border px-2 py-1 rounded"
-        placeholder="Elevators"
         min={1}
       />
 
@@ -108,10 +106,10 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
         value={floors}
         onChange={(e) => setFloors(+e.target.value)}
         className="border px-2 py-1 rounded"
-        placeholder="Floors"
         min={1}
       />
 
+      {/* Control Buttons */}
       {!isRunning ? (
         <button onClick={handleStart} className="bg-green-600 hover:bg-green-700 text-white py-2 rounded">
           Start
@@ -130,10 +128,10 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
         Reset
       </button>
 
-
       <hr className="my-2" />
       <h3 className="text-md font-semibold text-gray-700">Add Manual Request</h3>
 
+      {/* Manual Request Form */}
       <div className="flex flex-col gap-2">
         <label className="text-sm text-gray-600">Origin</label>
         <input
@@ -168,7 +166,7 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
         {success && <p className="text-green-600 text-sm">{success}</p>}
       </div>
 
-
+      {/* Speed Control */}
       <div className="mt-4">
         <p className="text-sm text-gray-700 font-semibold mb-1">Speed</p>
         <div className="flex gap-2">
@@ -176,10 +174,9 @@ const Controls: React.FC<Props> = ({ onReset, onFloorChange, speed, setSpeed }) 
             <button
               key={value}
               onClick={() => handleSpeedClick(value)}
-              className={`px-3 py-1 rounded border transition-all duration-200 ${speed === value
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
-                }`}
+              className={`px-3 py-1 rounded border transition-all duration-200 ${
+                speed === value ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'
+              }`}
             >
               {value}x
             </button>
